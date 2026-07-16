@@ -7,6 +7,24 @@
 <meta name="description" content="Cybersecurity student portfolio: National Cyber League competitor, hardware projects, labs, and writeups.">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
+<script>
+// Runs before paint so there is no flash.
+// Two separate decisions:
+//   matrix  = the background canvas. Low-opacity ambient texture that moves no
+//             content, so it defaults ON for everyone. Only an explicit opt-out
+//             turns it off (that opt-out is the mechanism WCAG 2.2.2 asks for).
+//   rich    = typewriter, reveal transitions, nav slide, contact spin. These move
+//             real content, so they still follow the OS accessibility setting.
+(function () {
+  var pref = null;
+  try { pref = localStorage.getItem("fx"); } catch (e) {}
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var rich = pref === null ? !reduce : pref === "on";
+  var matrix = pref !== "off";
+  document.documentElement.className =
+    (rich ? "motion-on" : "motion-off") + " " + (matrix ? "matrix-on" : "matrix-off");
+})();
+</script>
 <style>
   :root {
     --bg: #0b0f14;
@@ -61,12 +79,31 @@
   /* Reveal-on-scroll */
   .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
   .reveal.visible { opacity: 1; transform: none; }
+  /* Motion off: freeze everything, but keep the visuals. The matrix canvas
+     stays on screen as a single static frame instead of vanishing. */
+  .motion-off .reveal { opacity: 1; transform: none; transition: none; }
+  .motion-off .nav-logo::after { animation: none; }
+  .motion-off nav { transition: none; }
+  .motion-off .contact-box::before { animation: none; }
+  .matrix-off #matrix { opacity: 0.10; }   /* frozen frame, still visible */
+  /* No-JS fallback: honour the OS unless the class says otherwise */
   @media (prefers-reduced-motion: reduce) {
-    .reveal { opacity: 1; transform: none; transition: none; }
-    .nav-logo::after { animation: none; }
-    nav { transition: none; }
-    #matrix { display: none; }
+    html:not(.motion-on) .reveal { opacity: 1; transform: none; transition: none; }
+    html:not(.motion-on) .nav-logo::after { animation: none; }
+    html:not(.motion-on) nav { transition: none; }
   }
+
+  /* Effects toggle */
+  .fx-toggle {
+    background: none; border: 1px solid var(--border); color: var(--muted);
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.06em;
+    padding: 0.25rem 0.5rem; border-radius: 6px; cursor: pointer;
+    margin-left: 1.4rem; transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .fx-toggle:hover { color: var(--accent); border-color: var(--accent); }
+  .fx-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .matrix-on .fx-toggle { color: var(--accent); border-color: var(--accent); }
+  @media (max-width: 600px) { .fx-toggle { margin-left: 0.7rem; } }
 
   /* Hero */
   .hero { padding: 6.5rem 0 4.5rem; position: relative; }
@@ -260,6 +297,7 @@
       <a href="#ai">AI</a>
       <a href="#experience">Experience</a>
       <a href="#contact">Contact</a>
+      <button class="fx-toggle" id="fx-toggle" aria-pressed="false" title="Toggle background effects">FX</button>
     </div>
   </div>
 </nav>
@@ -529,21 +567,48 @@
 </div>
 
 <script>
+// ---------- Motion state ----------
+function motionOn() { return document.documentElement.classList.contains("motion-on"); }
+function matrixOn() { return document.documentElement.classList.contains("matrix-on"); }
+
 // ---------- Matrix rain ----------
-(function () {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+var Matrix = (function () {
   const c = document.getElementById("matrix");
   const ctx = c.getContext("2d");
-  let drops = [];
   const glyphs = "01アイウエオカキクケコサシスセソ<>/{}$#@";
   const size = 16;
+  let drops = [];
+
+  // A single frozen frame: columns of glyphs fading upward from a bright head.
+  // Looks like the rain paused mid-fall, with zero motion.
+  function drawStatic() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    ctx.font = size + "px monospace";
+    const cols = Math.floor(c.width / size);
+    for (let i = 0; i < cols; i++) {
+      const head = Math.random() * c.height;
+      const len = 5 + Math.random() * 18;
+      for (let j = 0; j < len; j++) {
+        const y = head - j * size;
+        if (y < 0) break;
+        const a = (1 - j / len) * 0.9;
+        ctx.fillStyle = "rgba(74,222,128," + a.toFixed(2) + ")";
+        ctx.fillText(glyphs[Math.floor(Math.random() * glyphs.length)], i * size, y);
+      }
+    }
+  }
+
   function resize() {
     c.width = window.innerWidth; c.height = window.innerHeight;
     drops = Array(Math.floor(c.width / size)).fill(0).map(() => Math.random() * -50);
+    if (!matrixOn()) drawStatic();
   }
+
   resize();
   window.addEventListener("resize", resize);
+
   setInterval(() => {
+    if (!matrixOn()) return;            // frozen frame is already on screen
     ctx.fillStyle = "rgba(11, 15, 20, 0.12)";
     ctx.fillRect(0, 0, c.width, c.height);
     ctx.fillStyle = "#4ade80";
@@ -554,10 +619,12 @@
       drops[i] = y * size > c.height && Math.random() > 0.975 ? 0 : y + 1;
     });
   }, 66);
+
+  return { drawStatic: drawStatic };
 })();
 
 // ---------- Typewriter ----------
-(function () {
+var Typer = (function () {
   const phrases = [
     "Aspiring penetration tester",
     "NCL 90th percentile, OSINT",
@@ -565,9 +632,10 @@
     "I break things to learn how to protect them."
   ];
   const el = document.getElementById("typed");
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { el.textContent = phrases[0]; return; }
-  let p = 0, i = 0, deleting = false;
+  let p = 0, i = 0, deleting = false, running = false;
+
   function tick() {
+    if (!motionOn()) { running = false; el.textContent = phrases[0]; return; }
     const phrase = phrases[p];
     el.textContent = phrase.slice(0, i);
     let delay = deleting ? 30 : 65;
@@ -576,7 +644,16 @@
     i += deleting ? -1 : 1;
     setTimeout(tick, delay);
   }
-  tick();
+
+  function start() {
+    if (running) return;
+    if (!motionOn()) { el.textContent = phrases[0]; return; }
+    running = true; p = 0; i = 0; deleting = false;
+    tick();
+  }
+
+  start();
+  return { start: start };
 })();
 
 // ---------- Scroll reveal ----------
@@ -610,6 +687,32 @@
     });
   }, { threshold: 0.5 });
   document.querySelectorAll(".stat .num").forEach(el => obs.observe(el));
+})();
+
+// ---------- Effects toggle ----------
+(function () {
+  const btn = document.getElementById("fx-toggle");
+  const d = document.documentElement;
+
+  function sync() {
+    const on = motionOn() || matrixOn();
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.title = on ? "Turn background effects off" : "Turn background effects on";
+  }
+  sync();
+
+  btn.addEventListener("click", () => {
+    // FX off freezes everything including the matrix; FX on runs the lot.
+    const on = !(motionOn() || matrixOn());
+    d.classList.toggle("motion-on", on);
+    d.classList.toggle("motion-off", !on);
+    d.classList.toggle("matrix-on", on);
+    d.classList.toggle("matrix-off", !on);
+    try { localStorage.setItem("fx", on ? "on" : "off"); } catch (e) {}
+    if (on) Typer.start();          // restart the cycle in place
+    else Matrix.drawStatic();       // freeze the rain where it is
+    sync();
+  });
 })();
 
 // ---------- Auto-hiding nav ----------
