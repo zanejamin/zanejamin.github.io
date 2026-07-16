@@ -40,7 +40,7 @@
     --sans: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; overflow-x: hidden; scroll-padding-top: 5rem; }
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
   body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; overflow-x: hidden; width: 100%; }
   a { color: var(--accent-2); text-decoration: none; }
   a:hover { text-decoration: underline; }
@@ -56,6 +56,17 @@
     transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
   }
   nav.nav-hidden { transform: translateY(-100%); }
+
+  /* Mobile dropdown */
+  .nav-burger {
+    display: none; background: none; border: 1px solid var(--border); color: var(--text);
+    font-size: 1.05rem; line-height: 1; cursor: pointer;
+    width: 38px; height: 34px; border-radius: 6px;
+    align-items: center; justify-content: center;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .nav-burger:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-burger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .nav-inner {
     max-width: 960px; margin: 0 auto; padding: 0.9rem 1.5rem;
     display: flex; justify-content: space-between; align-items: center;
@@ -264,10 +275,29 @@
 
   footer { border-top: 1px solid var(--border); padding: 1.5rem 0; text-align: center; color: var(--muted); font-size: 0.85rem; font-family: var(--mono); }
 
+  /* Six links + a logo + a button will not fit on a phone, so below 700px
+     they collapse into a dropdown instead of overflowing the bar. */
+  @media (max-width: 700px) {
+    .nav-inner { flex-wrap: wrap; }
+    .nav-burger { display: flex; }
+    .nav-links {
+      display: flex; flex-direction: column; align-items: stretch;
+      width: 100%; overflow: hidden; margin: 0;
+      max-height: 0; opacity: 0;
+      transition: max-height 0.3s ease, opacity 0.25s ease, margin-top 0.3s ease;
+    }
+    .nav-links.open { max-height: 24rem; opacity: 1; margin-top: 0.75rem; }
+    .nav-links a {
+      margin-left: 0; width: 100%; padding: 0.75rem 0.15rem;
+      font-size: 0.95rem; border-top: 1px solid var(--border);
+    }
+    .nav-links a::after { display: none; }
+    .fx-toggle { margin: 0.85rem 0 0.35rem; align-self: flex-start; }
+  }
+
   @media (max-width: 600px) {
     .hero h1 { font-size: 2.1rem; }
     .typeline { font-size: 1rem; }
-    .nav-links a { margin-left: 0.9rem; font-size: 0.85rem; }
 
     /* a little more room down the sides */
     .container { padding: 0 1.75rem; }
@@ -290,7 +320,8 @@
 <nav>
   <div class="nav-inner">
     <a class="nav-logo" href="#top" aria-label="Back to top">Ben@sec:~$</a>
-    <div class="nav-links">
+    <button class="nav-burger" id="nav-burger" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu">&#9776;</button>
+    <div class="nav-links" id="nav-links">
       <a href="#projects">Projects</a>
       <a href="#ncl">NCL</a>
       <a href="#skills">Skills</a>
@@ -715,6 +746,30 @@ var Typer = (function () {
   });
 })();
 
+// ---------- Mobile dropdown ----------
+var Menu = (function () {
+  const burger = document.getElementById("nav-burger");
+  const links = document.getElementById("nav-links");
+
+  function close() {
+    links.classList.remove("open");
+    burger.setAttribute("aria-expanded", "false");
+    burger.setAttribute("aria-label", "Open menu");
+  }
+  function toggle() {
+    const open = links.classList.toggle("open");
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+    burger.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  }
+
+  burger.addEventListener("click", toggle);
+  // tapping any link closes the menu behind you
+  links.querySelectorAll("a").forEach(a => a.addEventListener("click", close));
+  document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+
+  return { close: close };
+})();
+
 // ---------- Auto-hiding nav ----------
 (function () {
   const nav = document.querySelector("nav");
@@ -728,7 +783,7 @@ var Typer = (function () {
     const diff = y - last;
     if (Math.abs(diff) > THRESHOLD) {
       // scrolling down past the hero -> tuck away; any upward flick -> bring it back
-      if (diff > 0 && y > REVEAL_AT) nav.classList.add("nav-hidden");
+      if (diff > 0 && y > REVEAL_AT) { nav.classList.add("nav-hidden"); Menu.close(); }
       else nav.classList.remove("nav-hidden");
       last = y;
     }
@@ -778,6 +833,7 @@ var Typer = (function () {
     lb.classList.remove("open");
     img.src = "";
     document.body.style.overflow = "";
+    document.querySelector("nav").classList.remove("nav-hidden");  // give the bar back
     if (lastFocus) lastFocus.focus();
   }
 
