@@ -22,7 +22,7 @@
     --sans: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; overflow-x: hidden; }
+  html { scroll-behavior: smooth; overflow-x: hidden; scroll-padding-top: 5rem; }
   body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; overflow-x: hidden; width: 100%; }
   a { color: var(--accent-2); text-decoration: none; }
   a:hover { text-decoration: underline; }
@@ -35,7 +35,9 @@
     position: sticky; top: 0; z-index: 10;
     background: rgba(11,15,20,0.85); backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border);
+    transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
   }
+  nav.nav-hidden { transform: translateY(-100%); }
   .nav-inner {
     max-width: 960px; margin: 0 auto; padding: 0.9rem 1.5rem;
     display: flex; justify-content: space-between; align-items: center;
@@ -62,6 +64,7 @@
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
     .nav-logo::after { animation: none; }
+    nav { transition: none; }
     #matrix { display: none; }
   }
 
@@ -126,21 +129,6 @@
   }
   .card-links { display: flex; gap: 1rem; font-size: 0.88rem; }
 
-
-  /* NCL scorecard */
-  .ncl-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
-  .ncl-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
-  .ncl-card h3 { font-size: 1rem; font-family: var(--mono); color: var(--accent); margin-bottom: 0.2rem; }
-  .ncl-rank { font-family: var(--mono); font-size: 2rem; font-weight: 700; color: var(--text); line-height: 1.1; }
-  .ncl-rank small { font-size: 0.85rem; color: var(--muted); font-weight: 400; display: block; margin-top: 0.2rem; }
-  .bar-row { margin-top: 1rem; }
-  .bar-label { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--muted); margin-bottom: 0.3rem; }
-  .bar-label b { color: var(--text); font-family: var(--mono); font-weight: 600; }
-  .bar { height: 6px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
-  .bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--accent-2), var(--accent)); border-radius: 999px; width: 0; transition: width 1.1s cubic-bezier(0.22,1,0.36,1); }
-  .visible .bar span { width: var(--w); }
-  .verify { font-family: var(--mono); font-size: 0.75rem; color: var(--muted); margin-top: 1.1rem; padding-top: 0.9rem; border-top: 1px solid var(--border); }
-  .verify a { color: var(--accent-2); }
 
   /* Photo gallery */
   .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.9rem; margin: 0.4rem 0; }
@@ -281,11 +269,11 @@
   <h1>Ben <span>Ellis</span></h1>
   <p class="typeline"><span id="typed"></span></p>
   <p class="sub">
-    I'm a cybersecurity student at Southwestern Oklahoma State University building toward a career in penetration
-    testing. I placed in the 83rd percentile nationally in the National Cyber League, with top-10% results in open
-    source intelligence, and I spend my free time
-    building hands-on security projects like a portable Marauder. Right now I'm studying for my CompTIA A+
-    and ISC2 CC certifications.
+    Cybersecurity student at Southwestern Oklahoma State University (B.S. expected 2028) focused on offensive
+    security. I compete in the National Cyber League, where I placed in the 83rd percentile nationally and the
+    top 10% in open source intelligence. I also build what I study: a portable ESP32 wireless testing tool, an
+    end-to-end encrypted chat application, and a home pentesting lab. Currently working toward CompTIA A+ and
+    ISC2 CC, and looking for a year-round internship.
   </p>
   <div class="btn-row">
     <a class="btn btn-primary" href="#projects">View my work</a>
@@ -343,7 +331,7 @@
     </div>
     <div class="card">
       <h3>Space Invaders Knockoff</h3>
-      <p>A playable arcade game built in Python for my Coding Odyssey course, with sprites, collision detection, and game loop logic written from scratch.</p>
+      <p>A playable arcade game written from scratch in Python for my Coding Odyssey course. Sprite rendering, collision detection, and the main game loop are all built by hand rather than pulled from a framework.</p>
       <div class="tags"><span class="tag">Python</span><span class="tag">Game dev</span></div>
       <div class="card-links"><a href="https://github.com/zanejamin/coding-odyssey-2-python-space-invaiders-knockoff-" target="_blank" rel="noopener noreferrer">GitHub repo &rsaquo;</a></div>
     </div>
@@ -359,10 +347,29 @@
     </div>
     <div class="card">
       <h3>Alien Game (C++)</h3>
-      <p>A game project written in C++ for spring 2025, covering memory management and object-oriented design in a lower-level language.</p>
+      <p>A game project written in C++ for spring 2025, covering memory management and object-oriented design.</p>
       <div class="tags"><span class="tag">C++</span><span class="tag">Game dev</span></div>
       <div class="card-links"><a href="https://github.com/zanejamin/alien-game-spring-2025" target="_blank" rel="noopener noreferrer">GitHub repo &rsaquo;</a></div>
     </div>
+  </div>
+</section>
+
+<section id="ncl" class="container reveal">
+  <h2>National Cyber League</h2>
+  <p class="sub" style="color:var(--muted);max-width:720px;margin-bottom:2rem;">
+    NCL is a national CTF competition scored across nine cybersecurity skill categories and verified by Cyber
+    Skyline. In Spring 2025 I competed in both the Individual and Team games, finishing in the 83rd percentile
+    nationally with top-10% results in open source intelligence.
+  </p>
+
+  <div class="card feature" style="margin-top:0">
+    <h3>Cyber Skyline Verified Certificates</h3>
+    <p>Certificates of participation for the NCL Spring 2025 Individual and Team games. Click to enlarge.</p>
+    <div class="gallery">
+      <a href="ncl-team-cert.jpg" data-lb><img src="ncl-team-cert.jpg" alt="NCL Spring 2025 Team Game certificate of participation"></a>
+      <a href="ncl-individual-cert.jpg" data-lb><img src="ncl-individual-cert.jpg" alt="NCL Spring 2025 Individual Game certificate of participation"></a>
+    </div>
+    <div class="tags"><span class="tag">CTF</span><span class="tag">OSINT</span><span class="tag">Cryptography</span><span class="tag">Password Cracking</span></div>
   </div>
 </section>
 
@@ -444,31 +451,13 @@
   </div>
 </section>
 
-<section id="ncl" class="container reveal">
-  <h2>National Cyber League</h2>
-  <p class="sub" style="color:var(--muted);max-width:720px;margin-bottom:2rem;">
-    NCL is a national CTF competition scored across nine cybersecurity skill categories and verified by Cyber
-    Skyline. In Spring 2025 I competed in both the Individual and Team games, finishing in the 83rd percentile
-    nationally with top-10% results in open source intelligence.
-  </p>
-
-  <div class="card feature" style="margin-top:0">
-    <h3>Cyber Skyline Verified Certificates</h3>
-    <p>Certificates of participation for the NCL Spring 2025 Individual and Team games. Click to enlarge.</p>
-    <div class="gallery">
-      <a href="ncl-team-cert.jpg" data-lb><img src="ncl-team-cert.jpg" alt="NCL Spring 2025 Team Game certificate of participation"></a>
-      <a href="ncl-individual-cert.jpg" data-lb><img src="ncl-individual-cert.jpg" alt="NCL Spring 2025 Individual Game certificate of participation"></a>
-    </div>
-    <div class="tags"><span class="tag">CTF</span><span class="tag">OSINT</span><span class="tag">Cryptography</span><span class="tag">Password Cracking</span></div>
-  </div>
-</section>
 
 <section id="experience" class="container reveal">
   <h2>Experience &amp; Education</h2>
   <div class="timeline">
     <div class="entry">
       <span class="when">2025</span>
-      <h3>National Cyber League &mdash; 83rd Percentile</h3>
+      <h3>National Cyber League, 83rd Percentile</h3>
       <p class="where">NCL Competition</p>
       <ul>
         <li>Team Game: 840th of 4,779 nationally (83rd percentile) with team "The Three Musketeers"; Individual Game: 2,964th of 8,573 (66th percentile).</li>
@@ -516,7 +505,7 @@
 <section id="contact" class="container reveal">
   <div class="contact-box">
     <h2 style="justify-content:center">Get in touch</h2>
-    <p>I'm currently seeking a year-round cybersecurity internship where I can apply what I'm learning, gain real-world experience, and keep growing while I finish my degree. My inbox is open.</p>
+    <p>I'm seeking a year-round cybersecurity internship where I can apply what I'm learning and gain real-world experience. I'm looking for something that runs alongside my coursework: part-time hours during the semester and full availability over breaks, so I can contribute consistently while I finish my degree.</p>
     <div class="btn-row" style="justify-content:center">
       <a class="btn btn-primary" href="mailto:zanejamin42@gmail.com">zanejamin42@gmail.com</a>
       <a class="btn btn-outline" href="tel:+14054822682">(405) 482-2682</a>
@@ -623,6 +612,32 @@
   document.querySelectorAll(".stat .num").forEach(el => obs.observe(el));
 })();
 
+// ---------- Auto-hiding nav ----------
+(function () {
+  const nav = document.querySelector("nav");
+  let last = window.scrollY;
+  let ticking = false;
+  const THRESHOLD = 5;   // ignore trackpad jitter
+  const REVEAL_AT = 130; // never hide near the very top
+
+  function update() {
+    const y = window.scrollY;
+    const diff = y - last;
+    if (Math.abs(diff) > THRESHOLD) {
+      // scrolling down past the hero -> tuck away; any upward flick -> bring it back
+      if (diff > 0 && y > REVEAL_AT) nav.classList.add("nav-hidden");
+      else nav.classList.remove("nav-hidden");
+      last = y;
+    }
+    if (y <= REVEAL_AT) nav.classList.remove("nav-hidden");
+    ticking = false;
+  }
+
+  window.addEventListener("scroll", () => {
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  }, { passive: true });
+})();
+
 // ---------- Lightbox ----------
 (function () {
   const lb = document.getElementById("lightbox");
@@ -652,6 +667,7 @@
     show(group.indexOf(a));
     lb.classList.add("open");
     document.body.style.overflow = "hidden";
+    document.querySelector("nav").classList.add("nav-hidden");
     document.getElementById("lb-close").focus();
   }
 
