@@ -246,6 +246,37 @@
 
   #ai .skill-group h3 { font-family: var(--sans); font-size: 1rem; color: var(--accent); letter-spacing: 0; }
 
+  /* NCL scouting dashboard */
+  .ncl-dash { margin-bottom: 1.5rem; }
+  .ncl-games { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+  .ncl-game { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.6rem; }
+  .ncl-game > .ghead { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.2rem; }
+  .ncl-game > .ghead h3 { font-family: var(--mono); font-size: 0.95rem; color: var(--accent); }
+  .ncl-game > .ghead .gtag { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); }
+  .ncl-game > .grank { color: var(--muted); font-size: 0.8rem; margin-bottom: 1.3rem; }
+  .game-rings { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .ring-cell { text-align: center; }
+  .ring-wrap { position: relative; width: 108px; height: 108px; margin: 0 auto 0.5rem; }
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-wrap .track { fill: none; stroke: var(--surface-2); stroke-width: 9; }
+  .ring-wrap .prog { fill: none; stroke: var(--accent); stroke-width: 9; stroke-linecap: round; stroke-dasharray: 314.16; stroke-dashoffset: 314.16; transition: stroke-dashoffset 1.5s ease; }
+  .ring-wrap .prog.blue { stroke: var(--accent-2); }
+  .ring-wrap .rv { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-wrap .rv b { font-family: var(--mono); font-size: 1.25rem; color: var(--text); }
+  .ring-wrap .rv span { font-size: 0.6rem; color: var(--muted); letter-spacing: 0.05em; }
+  .ring-cell .rlabel { font-size: 0.78rem; color: var(--text); }
+  .ring-cell .ravg { font-size: 0.68rem; color: var(--muted); margin-top: 0.15rem; }
+  .cats-head { font-family: var(--mono); font-size: 0.76rem; color: var(--muted); margin-bottom: 1rem; letter-spacing: 0.03em; }
+  .cat { margin-bottom: 1rem; }
+  .cat-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.35rem; }
+  .cat-name { color: var(--text); font-size: 0.86rem; }
+  .cat-name small { color: var(--muted); font-family: var(--mono); font-size: 0.7rem; margin-left: 0.35rem; }
+  .cat-val { color: var(--accent); font-family: var(--mono); font-size: 0.82rem; }
+  .cat-track { height: 12px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+  .cat-fill { height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, var(--accent-2), var(--accent)); transition: width 1.3s cubic-bezier(0.22, 1, 0.36, 1); }
+  .ncl-verify { display: inline-block; font-family: var(--mono); font-size: 0.8rem; margin-top: 1rem; }
+  .motion-off .ring-wrap .prog, .motion-off .cat-fill { transition: none; }
+
   /* Timeline */
   .timeline { border-left: 2px solid var(--border); padding-left: 1.6rem; display: flex; flex-direction: column; gap: 2.6rem; }
   .entry { position: relative; }
@@ -351,9 +382,9 @@
     <a class="btn btn-outline" href="https://app.joinhandshake.com/profiles/r3t9aj" target="_blank" rel="noopener noreferrer">Handshake</a>
   </div>
   <div class="stats">
-    <div class="stat"><div class="num" data-count="90" data-suffix="th">0</div><div class="label">percentile, NCL OSINT nationally</div></div>
-    <div class="stat"><div class="num" data-count="2">0</div><div class="label">certs in progress (A+, CC)</div></div>
-    <div class="stat"><div class="num" data-count="3">0</div><div class="label">languages (Python, C++, JS)</div></div>
+    <div class="stat"><div class="num" data-count="90" data-suffix="th">0</div><div class="label">Percentile, NCL OSINT nationally</div></div>
+    <div class="stat"><div class="num" data-count="2">0</div><div class="label">Certs in progress (A+, CC)</div></div>
+    <div class="stat"><div class="num" data-count="3">0</div><div class="label">Languages (Python, C++, JS)</div></div>
     <div class="stat"><div class="num" data-count="2028" data-nocomma="1">0</div><div class="label">B.S. Cybersecurity, expected</div></div>
   </div>
 </header>
@@ -431,6 +462,98 @@
     nationally with top-10% results in open source intelligence.
   </p>
 
+  <div class="ncl-dash">
+    <div class="ncl-games">
+
+      <div class="ncl-game">
+        <div class="ghead"><h3>Team Game</h3><span class="gtag">SPRING 2025</span></div>
+        <div class="grank">840th of 4,779 nationally &middot; team "The Three Musketeers"</div>
+        <div class="game-rings">
+          <div class="ring-cell">
+            <div class="ring-wrap">
+              <svg width="120" height="120" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="track" cx="60" cy="60" r="50"></circle>
+                <circle class="prog" data-ring="73.8" cx="60" cy="60" r="50"></circle>
+              </svg>
+              <div class="rv"><b>73.8%</b><span>ACCURACY</span></div>
+            </div>
+            <div class="rlabel">Challenge accuracy</div>
+            <div class="ravg">Average: 55.4%</div>
+          </div>
+          <div class="ring-cell">
+            <div class="ring-wrap">
+              <svg width="120" height="120" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="track" cx="60" cy="60" r="50"></circle>
+                <circle class="prog blue" data-ring="83" cx="60" cy="60" r="50"></circle>
+              </svg>
+              <div class="rv"><b>83rd</b><span>PERCENTILE</span></div>
+            </div>
+            <div class="rlabel">National rank</div>
+            <div class="ravg">of 4,779 players</div>
+          </div>
+        </div>
+        <div class="cats-head">Top categories, national percentile</div>
+        <div class="cat">
+          <div class="cat-top"><span class="cat-name">Open Source Intelligence <small>73% acc</small></span><span class="cat-val">90th</span></div>
+          <div class="cat-track"><div class="cat-fill" data-pct="90"></div></div>
+        </div>
+        <div class="cat">
+          <div class="cat-top"><span class="cat-name">Password Cracking <small>86% acc</small></span><span class="cat-val">87th</span></div>
+          <div class="cat-track"><div class="cat-fill" data-pct="87"></div></div>
+        </div>
+        <div class="cat">
+          <div class="cat-top"><span class="cat-name">Cryptography <small>71% acc</small></span><span class="cat-val">84th</span></div>
+          <div class="cat-track"><div class="cat-fill" data-pct="84"></div></div>
+        </div>
+        <a class="ncl-verify" href="https://cyberskyline.com/report/V481546CHP61" target="_blank" rel="noopener noreferrer">Verify report &rsaquo;</a>
+      </div>
+
+      <div class="ncl-game">
+        <div class="ghead"><h3>Individual Game</h3><span class="gtag">SPRING 2025</span></div>
+        <div class="grank">2,964th of 8,573 nationally &middot; solo, no assistance</div>
+        <div class="game-rings">
+          <div class="ring-cell">
+            <div class="ring-wrap">
+              <svg width="120" height="120" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="track" cx="60" cy="60" r="50"></circle>
+                <circle class="prog" data-ring="77.1" cx="60" cy="60" r="50"></circle>
+              </svg>
+              <div class="rv"><b>77.1%</b><span>ACCURACY</span></div>
+            </div>
+            <div class="rlabel">Challenge accuracy</div>
+            <div class="ravg">Average: 66.8%</div>
+          </div>
+          <div class="ring-cell">
+            <div class="ring-wrap">
+              <svg width="120" height="120" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="track" cx="60" cy="60" r="50"></circle>
+                <circle class="prog blue" data-ring="66" cx="60" cy="60" r="50"></circle>
+              </svg>
+              <div class="rv"><b>66th</b><span>PERCENTILE</span></div>
+            </div>
+            <div class="rlabel">National rank</div>
+            <div class="ravg">of 8,573 players</div>
+          </div>
+        </div>
+        <div class="cats-head">Top categories, national percentile</div>
+        <div class="cat">
+          <div class="cat-top"><span class="cat-name">Cryptography <small>80% acc</small></span><span class="cat-val">83rd</span></div>
+          <div class="cat-track"><div class="cat-fill" data-pct="83"></div></div>
+        </div>
+        <div class="cat">
+          <div class="cat-top"><span class="cat-name">Password Cracking <small>100% acc</small></span><span class="cat-val">71st</span></div>
+          <div class="cat-track"><div class="cat-fill" data-pct="71"></div></div>
+        </div>
+        <div class="cat">
+          <div class="cat-top"><span class="cat-name">Open Source Intelligence <small>80% acc</small></span><span class="cat-val">69th</span></div>
+          <div class="cat-track"><div class="cat-fill" data-pct="69"></div></div>
+        </div>
+        <a class="ncl-verify" href="https://cyberskyline.com/report/H5098PC5QXVH" target="_blank" rel="noopener noreferrer">Verify report &rsaquo;</a>
+      </div>
+
+    </div>
+  </div>
+
   <div class="card feature" style="margin-top:0">
     <h3>Cyber Skyline Verified Certificates</h3>
     <p>Certificates of participation for the NCL Spring 2025 Individual and Team games. Click to enlarge.</p>
@@ -446,7 +569,7 @@
   <h2>Skills</h2>
   <div class="skill-groups">
     <div class="skill-group">
-      <h3>security</h3>
+      <h3>Security</h3>
       <ul>
         <li>Penetration testing fundamentals</li>
         <li>Wi-Fi and Bluetooth testing</li>
@@ -455,7 +578,7 @@
       </ul>
     </div>
     <div class="skill-group">
-      <h3>systems &amp; networking</h3>
+      <h3>Systems &amp; Networking</h3>
       <ul>
         <li>Kali Linux</li>
         <li>Virtualization (VirtualBox, VMs)</li>
@@ -464,7 +587,7 @@
       </ul>
     </div>
     <div class="skill-group">
-      <h3>programming &amp; hardware</h3>
+      <h3>Programming &amp; Hardware</h3>
       <ul>
         <li>Python</li>
         <li>C++</li>
@@ -473,7 +596,7 @@
       </ul>
     </div>
     <div class="skill-group">
-      <h3>certifications</h3>
+      <h3>Certifications</h3>
       <ul>
         <li>CompTIA A+ (in progress)</li>
         <li>ISC2 CC (in progress)</li>
@@ -718,6 +841,26 @@ var Typer = (function () {
     });
   }, { threshold: 0.5 });
   document.querySelectorAll(".stat .num").forEach(el => obs.observe(el));
+})();
+
+// ---------- NCL dashboard animation (rings + category bars) ----------
+(function () {
+  const section = document.getElementById("ncl");
+  if (!section) return;
+  const C = 2 * Math.PI * 50; // ring circumference for r=50
+  section.querySelectorAll(".prog").forEach(p => { p.style.strokeDasharray = C; p.style.strokeDashoffset = C; });
+  function run() {
+    section.querySelectorAll(".prog").forEach(p => {
+      const pct = parseFloat(p.dataset.ring);
+      p.style.strokeDashoffset = C * (1 - pct / 100);
+    });
+    section.querySelectorAll(".cat-fill").forEach(f => { f.style.width = f.dataset.pct + "%"; });
+  }
+  if (!motionOn()) { run(); return; }
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (!e.isIntersecting) return; obs.unobserve(e.target); requestAnimationFrame(run); });
+  }, { threshold: 0.25 });
+  obs.observe(section);
 })();
 
 // ---------- Effects toggle ----------
