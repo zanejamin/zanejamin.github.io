@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:,">
+<title>Space Invaders Knockoff · Ben Ellis</title>
+<style>
+:root{
+  --bg:#0b0f14; --surface:#111820; --surface-2:#16202b; --border:#223041;
+  --text:#d7e1ec; --muted:#8fa1b3; --accent:#4ade80; --accent-2:#38bdf8;
+  --glow:rgba(74,222,128,.15);
+  --mono:"JetBrains Mono","Fira Code",Consolas,monospace;
+  --sans:"Inter",-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.6;
+     min-height:100vh;display:flex;flex-direction:column;align-items:center}
+a{color:var(--accent-2);text-decoration:none}
+a:hover{text-decoration:underline}
+
+nav{width:100%;position:sticky;top:0;z-index:10;background:rgba(11,15,20,.85);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:960px;margin:0 auto;padding:.9rem 1.5rem;display:flex;
+           justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem}
+.nav-logo{font-family:var(--mono);color:var(--accent);font-weight:700}
+.nav-logo::after{content:"\2588";margin-left:2px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.nav-links a{color:var(--muted);margin-left:1.2rem;font-size:.9rem}
+.nav-links a:hover{color:var(--text);text-decoration:none}
+
+.wrap{max-width:960px;width:100%;padding:2rem 1.5rem 3rem}
+.prompt{font-family:var(--mono);color:var(--accent);font-size:.88rem;margin-bottom:.6rem}
+h1{font-size:2rem;margin-bottom:.4rem}
+h1 span{color:var(--accent)}
+p.sub{color:var(--muted);max-width:680px;margin-bottom:1.2rem}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.4rem}
+.tag{font-family:var(--mono);font-size:.72rem;color:var(--accent-2);background:var(--surface-2);
+     border:1px solid var(--border);padding:.15rem .55rem;border-radius:999px}
+
+.stage{position:relative;width:100%;max-width:900px;margin:0 auto;
+       border:1px solid var(--border);border-radius:12px;overflow:hidden;
+       background:#05070d;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+canvas{display:block;width:100%;height:auto;aspect-ratio:900/600;background:#05070d}
+
+#overlay{position:absolute;inset:0;background:rgba(5,7,13,.94);display:flex;
+         flex-direction:column;align-items:center;justify-content:center;gap:1rem;text-align:center;padding:1.5rem}
+#overlay h2{font-family:var(--mono);color:var(--accent);font-size:1.3rem}
+#loadlabel{color:var(--muted);font-family:var(--mono);font-size:.9rem}
+#startbtn{display:none;background:var(--accent);color:#04240f;border:0;border-radius:8px;
+          padding:.7rem 2rem;font-family:var(--mono);font-weight:700;font-size:1rem;cursor:pointer}
+#startbtn:hover{filter:brightness(1.1)}
+
+#touchcontrols{display:none;gap:.8rem;justify-content:center;margin-top:1rem}
+#touchcontrols button{flex:1;max-width:130px;padding:1.1rem 0;font-size:1.1rem;font-family:var(--mono);
+  background:var(--surface-2);color:var(--text);border:1px solid var(--border);border-radius:10px;
+  user-select:none;-webkit-user-select:none;touch-action:none}
+#touchcontrols button:active{background:var(--accent);color:#04240f}
+
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin-top:1.8rem}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem}
+.card h3{font-size:.95rem;margin-bottom:.5rem;font-family:var(--mono);color:var(--accent)}
+.card p,.card li{color:var(--muted);font-size:.9rem}
+.card ul{margin-left:1.1rem}
+footer{border-top:1px solid var(--border);width:100%;padding:1.4rem 0 2.2rem;text-align:center;
+       color:var(--muted);font-size:.85rem;font-family:var(--mono);margin-top:2rem}
+@media(max-width:600px){h1{font-size:1.5rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="../index.html">Ben@sec:~$</a>
+    <div class="nav-links">
+      <a href="../index.html#projects">&larr; Portfolio</a>
+      <a href="https://github.com/zanejamin/coding-odyssey-2-python-space-invaiders-knockoff-" target="_blank" rel="noopener">Python source</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <p class="prompt">// playable in your browser</p>
+  <h1>Space Invaders <span>Knockoff</span></h1>
+  <p class="sub">A boss-rush take on the arcade classic - five boss types with distinct attack
+  patterns, escalating alien waves, and a level system. Originally written in Python with pygame;
+  this is a browser port of that game's logic so you can play it without installing anything.</p>
+
+  <div class="tags">
+    <span class="tag">python</span><span class="tag">pygame</span>
+    <span class="tag">javascript</span><span class="tag">canvas</span>
+    <span class="tag">game-loop</span><span class="tag">sprite-animation</span>
+  </div>
+
+  <div class="stage">
+    <canvas id="game" width="900" height="600"></canvas>
+    <div id="overlay">
+      <h2>Space Invaders Knockoff</h2>
+      <div id="loadlabel">Loading assets...</div>
+      <button id="startbtn">Click to start</button>
+    </div>
+  </div>
+
+  <div id="touchcontrols">
+    <button id="btn-left">◀</button>
+    <button id="btn-fire">FIRE</button>
+    <button id="btn-right">▶</button>
+  </div>
+
+  <div class="info">
+    <div class="card">
+      <h3>Controls</h3>
+      <ul>
+        <li>← → or A / D - move</li>
+        <li>Space - fire</li>
+        <li>Enter - continue</li>
+        <li>Esc - back to menu</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>The bosses</h3>
+      <ul>
+        <li><strong>Juggernaut</strong> - triple shot, heavy HP</li>
+        <li><strong>Hive Mother</strong> - summons orbiting minions</li>
+        <li><strong>Teleporter</strong> - blinks across the screen</li>
+        <li><strong>Laser Core</strong> - charges a lock-on beam</li>
+        <li><strong>Bomber</strong> - wide-radius explosives</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>About the port</h3>
+      <p>The original is Python/pygame. Browsers can't run that directly, so the game logic was
+      ported to JavaScript and canvas - same bosses, waves, sprites and audio. The Python source
+      is linked above.</p>
+    </div>
+  </div>
+</div>
+
+<footer>Benjamin Ellis &middot; 2026</footer>
+<script src="game.js"></script>
+</body>
+</html>

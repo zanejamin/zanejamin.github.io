@@ -1,0 +1,12 @@
+  /* Placeholder tiles for project shots that do not have images yet.
+     Swap a .shot div for the same <a data-lb><img></a> markup the Marauder
+     gallery uses and it will drop straight into the lightbox. */
+  .shot {
+    display: flex; align-items: center; justify-content: center;
+    height: 220px; padding: 1rem; text-align: center;
+    border: 1px dashed var(--border); border-radius: 10px;
+    background: var(--surface-2); color: var(--muted);
+    font-family: var(--mono); font-size: 0.78rem;
+  }
+  .card-actions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 0.2rem 0 0.5rem; }
+  .card-actions .btn { padding: 0.55rem 1.15rem; font-size: 0.9rem; }
