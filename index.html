@@ -198,6 +198,7 @@
   }
   .gallery a:hover img { transform: scale(1.06); filter: saturate(1.2) brightness(1.05); }
   .cap { font-size: 0.78rem; color: var(--muted); text-align: center; margin-top: 0.4rem; }
+  .gallery.gallery-phone img { height: 260px; object-fit: cover; object-position: top center; }
 
   .lightbox {
     position: fixed; inset: 0; z-index: 50; display: none;
@@ -470,12 +471,12 @@
         <a class="btn btn-primary" href="bible-clasp/index.html">Read the case study</a>
         <a class="btn btn-outline" href="https://github.com/zanejamin/bible-app-prototype" target="_blank" rel="noopener noreferrer">GitHub repo</a>
       </div>
-      <div class="gallery">
-        <div class="shot">[ lock screen with verse ]</div>
-        <div class="shot">[ reading screen ]</div>
-        <div class="shot">[ accountability partner view ]</div>
+      <div class="gallery gallery-phone">
+        <a href="bible-clasp/bc-today.png" data-lb><img src="bible-clasp/bc-today.png" alt="The home screen: time earned, reading streak, and protection status"></a>
+        <a href="bible-clasp/bc-read.png" data-lb><img src="bible-clasp/bc-read.png" alt="The reading screen: choosing how much to read and what each option earns"></a>
+        <a href="bible-clasp/bc-profile.png" data-lb><img src="bible-clasp/bc-profile.png" alt="The profile screen: reading stats, progress through the Bible, and translation picker"></a>
       </div>
-      <p class="cap">Left to right: the lock screen raised over a blocked app, the reading screen, and partner controls.</p>
+      <p class="cap">Left to right: the home screen with the time bank, choosing how much to read and what it earns, and reading stats with the translation picker.</p>
       <div class="tags"><span class="tag">Kotlin</span><span class="tag">Jetpack Compose</span><span class="tag">Android</span><span class="tag">Firestore</span><span class="tag">Material 3</span><span class="tag">Unit tested</span></div>
     </div>
 

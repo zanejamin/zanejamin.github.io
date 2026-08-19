@@ -23,13 +23,21 @@ Do not upload this file (UPLOAD-THIS.md) or SETUP-BETA-FORM.md. They are notes f
 
 ## One thing still missing
 
-Save your three phone screenshots into the bible-clasp folder with these names:
+Save your three phone screenshots into the bible-clasp folder, with these exact names:
 
     bible-clasp/bc-today.png      home screen
     bible-clasp/bc-read.png       read screen
     bible-clasp/bc-profile.png    profile screen
 
-Until then that gallery shows three broken images. Everything else works.
+They must be INSIDE bible-clasp/, not at the root. Both the project card on the
+homepage and the case study page point at that same location, so you only need one
+copy of each.
+
+On the homepage card they are cropped to the top of each screen so the three tiles
+line up evenly; clicking one opens the full screenshot in the lightbox. On the case
+study page they are shown whole.
+
+Until you add them, both galleries show broken images. Everything else works.
 
 ## Uploading through the GitHub website
 
