@@ -328,7 +328,25 @@
   .contact-box > * { position: relative; }
   .contact-box .copy { max-width: 460px; }
   .contact-box p { color: var(--muted); margin-top: 0.6rem; }
-  .contact-box .btn-row { flex-shrink: 0; }
+  .contact-box .btn-row { margin-top: 1.6rem; }
+  .contact-facts {
+    flex-shrink: 0; min-width: 280px;
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.3rem 1.4rem;
+  }
+  .contact-facts dl { display: grid; grid-template-columns: auto; gap: 0.1rem; }
+  .contact-facts dt {
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.03em;
+    color: var(--accent); text-transform: uppercase;
+  }
+  .contact-facts dd { color: var(--text); font-size: 0.92rem; margin-bottom: 0.85rem; }
+  .contact-facts dd:last-of-type { margin-bottom: 0; }
+  .contact-links {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--border);
+    font-size: 0.88rem;
+  }
+  @media (max-width: 780px) { .contact-facts { min-width: 0; width: 100%; } }
 
   footer { border-top: 1px solid var(--border); padding: 1.5rem 0; text-align: center; color: var(--muted); font-size: 0.85rem; font-family: var(--mono); }
 
@@ -392,8 +410,8 @@
     Cybersecurity student at Southwestern Oklahoma State University (B.S. expected 2028) focused on offensive
     security. I compete in the National Cyber League, where I placed in the 83rd percentile nationally and the
     top 10% in open source intelligence. I also build what I study: a portable ESP32 wireless testing tool, an
-    end-to-end encrypted chat application, and a home pentesting lab. Currently working toward CompTIA A+ and
-    ISC2 CC, and looking for a year-round internship.
+    end-to-end encrypted chat application, and a home pentesting lab. Currently working toward CompTIA A+,
+    ISC2 CC and PenTest+, and looking for a year-round internship.
   </p>
   <div class="btn-row">
     <a class="btn btn-primary" href="#projects">View my work</a>
@@ -403,7 +421,7 @@
   </div>
   <div class="stats">
     <div class="stat"><div class="num" data-count="90" data-suffix="th">0</div><div class="label">Percentile, NCL OSINT nationally</div></div>
-    <div class="stat"><div class="num" data-count="2">0</div><div class="label">Certs in progress (A+, CC)</div></div>
+    <div class="stat"><div class="num" data-count="3">0</div><div class="label">Certs in progress (A+, CC, PenTest+)</div></div>
     <div class="stat"><div class="num" data-count="3">0</div><div class="label">Languages (Python, C++, JS)</div></div>
     <div class="stat"><div class="num" data-count="2028" data-nocomma="1">0</div><div class="label">B.S. Cybersecurity, expected</div></div>
   </div>
@@ -442,7 +460,7 @@
         ported the game logic to JavaScript and canvas to make it playable here without installing anything.
       </p>
       <div class="card-actions">
-        <a class="btn btn-primary" href="space-invaders/index.html">&#9654; Play the demo</a>
+        <a class="btn btn-primary" href="space-invaders/">&#9654; Play the demo</a>
         <a class="btn btn-outline" href="https://github.com/zanejamin/coding-odyssey-2-python-space-invaiders-knockoff-" target="_blank" rel="noopener noreferrer">Python source</a>
       </div>
       <div class="gallery">
@@ -468,7 +486,7 @@
         framework so it can be unit tested, currently 75 tests passing.
       </p>
       <div class="card-actions">
-        <a class="btn btn-primary" href="bible-clasp/index.html">Read the case study</a>
+        <a class="btn btn-primary" href="bible-clasp/">Read the case study</a>
         <a class="btn btn-outline" href="https://github.com/zanejamin/bible-app-prototype" target="_blank" rel="noopener noreferrer">GitHub repo</a>
       </div>
       <div class="gallery gallery-phone">
@@ -665,6 +683,7 @@
       <ul>
         <li>CompTIA A+ (in progress)</li>
         <li>ISC2 CC (in progress)</li>
+        <li>CompTIA PenTest+ PT0-003 (in progress)</li>
         <li>CompTIA Security+ (planned next)</li>
       </ul>
     </div>
@@ -727,7 +746,7 @@
       <h3>B.S. Cybersecurity</h3>
       <p class="where">Southwestern Oklahoma State University</p>
       <ul>
-        <li>Studying for CompTIA A+ and ISC2 Certified in Cybersecurity (CC).</li>
+        <li>Studying for CompTIA A+, ISC2 Certified in Cybersecurity (CC) and CompTIA PenTest+.</li>
         <li>Previously attended Oklahoma Christian University (cybersecurity program, 2025).</li>
       </ul>
     </div>
@@ -765,10 +784,23 @@
     <div class="copy">
       <h2>Get in touch</h2>
       <p>I'm seeking a year-round cybersecurity internship where I can apply what I'm learning and gain real-world experience. I'm looking for something that runs alongside my coursework: part-time hours during the semester and full availability over breaks, so I can contribute consistently while I finish my degree.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="mailto:zanejamin42@gmail.com">zanejamin42@gmail.com</a>
+        <a class="btn btn-outline" href="tel:+14054822682">(405) 482-2682</a>
+      </div>
     </div>
-    <div class="btn-row">
-      <a class="btn btn-primary" href="mailto:zanejamin42@gmail.com">zanejamin42@gmail.com</a>
-      <a class="btn btn-outline" href="tel:+14054822682">(405) 482-2682</a>
+    <div class="contact-facts">
+      <dl>
+        <dt>Based in</dt><dd>Yukon, Oklahoma</dd>
+        <dt>Availability</dt><dd>Part-time in semester, full-time on breaks</dd>
+        <dt>Graduating</dt><dd>2028, B.S. Cybersecurity</dd>
+        <dt>Focus</dt><dd>Penetration testing and OSINT</dd>
+      </dl>
+      <div class="contact-links">
+        <a href="https://github.com/zanejamin" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/benjamin-ellis-b8340b419" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://app.joinhandshake.com/profiles/r3t9aj" target="_blank" rel="noopener noreferrer">Handshake</a>
+      </div>
     </div>
   </div>
 </section>

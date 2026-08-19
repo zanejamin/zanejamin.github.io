@@ -188,8 +188,27 @@
   .donate a:hover { border-color: var(--accent); transform: translateY(-3px); text-decoration: none; }
   .donate .name { color: var(--text); font-weight: 600; font-size: 0.95rem; }
   .donate .handle { font-family: var(--mono); font-size: 0.8rem; color: var(--accent-2); }
-  .donate .todo { border-style: dashed; opacity: 0.65; }
-  .donate .todo .handle { color: var(--muted); }
+
+  .qr { margin-top: 1rem; }
+  .qr summary {
+    display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;
+    list-style: none; width: auto;
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 0.55rem 1.1rem; font-size: 0.9rem; font-weight: 600; color: var(--text);
+    transition: border-color 0.2s ease;
+  }
+  .qr summary::-webkit-details-marker { display: none; }
+  .qr summary:hover { border-color: var(--accent-2); }
+  .qr summary::after {
+    content: ""; width: 0.5rem; height: 0.5rem; margin-left: 0.1rem;
+    border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted);
+    transform: rotate(45deg) translate(-2px, -2px); transition: transform 0.2s ease;
+  }
+  .qr[open] summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+  .qr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.9rem; margin-top: 0.9rem; }
+  .qr-card { background: #ffffff; border-radius: 12px; padding: 0.8rem; text-align: center; }
+  .qr-card img { width: 100%; height: auto; display: block; }
+  .qr-card .who { display: block; margin-top: 0.5rem; font-family: var(--mono); font-size: 0.75rem; color: #1b2430; }
 
   .page-nav {
     display: flex; justify-content: space-between; gap: 1rem; margin-top: 2rem;
@@ -205,9 +224,9 @@
 
 <nav>
   <div class="nav-inner">
-    <a class="nav-logo" href="../index.html">Ben@sec:~$</a>
+    <a class="nav-logo" href="../">Ben@sec:~$</a>
     <div class="nav-links">
-      <a href="../index.html#projects">&larr; Portfolio</a>
+      <a href="../#projects">&larr; Portfolio</a>
       <a href="https://github.com/zanejamin/bible-app-prototype" target="_blank" rel="noopener noreferrer">GitHub</a>
     </div>
   </div>
@@ -228,11 +247,11 @@
       <span class="tag">Firestore</span><span class="tag">Device Admin</span><span class="tag">75 unit tests</span>
     </div>
     <div class="hero-actions">
+      <a class="btn btn-primary" href="#support">Donate</a>
       <a class="btn btn-primary" href="https://github.com/zanejamin/bible-app-prototype/releases" target="_blank" rel="noopener noreferrer">Download for Android</a>
       <button class="btn btn-ghost" type="button" disabled aria-disabled="true">Download for Apple <small>coming soon</small></button>
       <a class="btn btn-outline" href="#beta">Join the beta</a>
       <a class="btn btn-outline" href="#report">Report a bug</a>
-      <a class="btn btn-outline" href="#support">Donate</a>
     </div>
   </header>
 
@@ -521,23 +540,41 @@
       you want to help cover the developer account and hosting, anything is genuinely appreciated.
     </p>
     <div class="donate">
-      <a class="todo" href="#" data-donate="cashapp">
+      <a href="https://cash.app/$zanejamin42" target="_blank" rel="noopener noreferrer">
         <span class="name">Cash App</span>
-        <span class="handle">$YOUR_CASHTAG</span>
+        <span class="handle">$zanejamin42</span>
       </a>
-      <a class="todo" href="#" data-donate="venmo">
+      <a href="https://account.venmo.com/u/zanejamin42" target="_blank" rel="noopener noreferrer">
         <span class="name">Venmo</span>
-        <span class="handle">@your-venmo</span>
+        <span class="handle">@zanejamin42</span>
       </a>
-      <a class="todo" href="#" data-donate="paypal">
+      <a href="https://www.paypal.me/zanejamin" target="_blank" rel="noopener noreferrer">
         <span class="name">PayPal</span>
-        <span class="handle">paypal.me/yourname</span>
+        <span class="handle">@zanejamin</span>
       </a>
     </div>
+    <details class="qr">
+      <summary>Get QR codes</summary>
+      <div class="qr-grid">
+        <div class="qr-card">
+          <img src="qr-cashapp.png" alt="Cash App QR code for $zanejamin42">
+          <span class="who">Cash App</span>
+        </div>
+        <div class="qr-card">
+          <img src="qr-venmo.png" alt="Venmo QR code for @zanejamin42">
+          <span class="who">Venmo</span>
+        </div>
+        <div class="qr-card">
+          <img src="qr-paypal.png" alt="PayPal QR code for @zanejamin">
+          <span class="who">PayPal</span>
+        </div>
+      </div>
+    </details>
+
   </section>
 
   <div class="page-nav">
-    <a href="../index.html#projects">&larr; Back to projects</a>
+    <a href="../#projects">&larr; Back to projects</a>
     <a href="https://github.com/zanejamin/bible-app-prototype" target="_blank" rel="noopener noreferrer">GitHub &rarr;</a>
   </div>
 

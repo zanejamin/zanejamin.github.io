@@ -133,6 +133,24 @@ async function loadAll(progress) {
 
 /* ---------------- drawing helpers ---------------- */
 
+function tintImage(img, color) {
+  const c = document.createElement("canvas");
+  c.width = img.naturalWidth || img.width;
+  c.height = img.naturalHeight || img.height;
+  const x = c.getContext("2d");
+  x.drawImage(img, 0, 0);
+  x.globalCompositeOperation = "source-in";
+  x.fillStyle = color;
+  x.fillRect(0, 0, c.width, c.height);
+  return c;
+}
+
+let tintedBullet = null;
+
+function setBulletColor(color) {
+  if (IMG.player_bullet) tintedBullet = tintImage(IMG.player_bullet, color);
+}
+
 function scaledSize(img, targetW) {
   const r = img.height / img.width;
   return [targetW, Math.round(targetW * r)];
@@ -227,6 +245,11 @@ function clickedVolume() {
 const ALIEN_W = 50, ALIEN_H = Math.round(50 * 150 / 120);   // source 120x150
 const PLAYER_W = 70, PLAYER_H = Math.round(70 * 383 / 343); // source 343x383
 const BOMB_W = 60, BOMB_H = 60;                             // source 200x200
+
+// The player bullet sprite is solid white with an alpha channel, so it can be
+// recoloured by compositing a fill through it. Change this one value to restyle
+// every shot the ship fires.
+const BULLET_COLOR = "#4ade80";
 
 const PLAYER_SPEED   = 4 * 120;
 const BULLET_SPEED   = 4 * 120;
@@ -545,7 +568,12 @@ function updateBullets(t, dt) {
 }
 
 function drawBullets() {
-  for (const b of R.bullets) drawImg(IMG.player_bullet, b[0], b[1], 6, 14);
+  const sprite = tintedBullet || IMG.player_bullet;
+  ctx.save();
+  ctx.shadowColor = BULLET_COLOR;
+  ctx.shadowBlur = 8;
+  for (const b of R.bullets) drawImg(sprite, b[0], b[1], 6, 14);
+  ctx.restore();
 
   for (const b of R.alienBullets) {
     if (b.type === "bomber_green") {
@@ -947,6 +975,7 @@ const loadLabel = document.getElementById("loadlabel");
     loadLabel.textContent = `Loading assets... ${pct}%`;
   });
 
+  setBulletColor(BULLET_COLOR);
   loadLabel.textContent = "Ready";
   startBtn.style.display = "inline-block";
 
